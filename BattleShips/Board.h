@@ -5,21 +5,29 @@
 
 #define BOARD_SIZE 10
 
+enum BoardCellState
+{
+	FREE,
+	OCCUPIED,
+	MISSED,
+	HIT
+};
+
 class Board
 {
 	int** _board;
-	Ship* _ships;
 	int _size;
-
+	Ship** _ships;
+	
 	void initBoard();
 	void deleteBoard();
 public:
-	Board(Ship* ships);
+	Board(Ship** ships);
 	Board();
 	~Board();
 
-	Ship* getShips() const;
-	void setShips(Ship* ships);
+	Ship** getShips() const;
+	void setShips(Ship** ships);
 
 	int** getBoard() const;
 	void setBoard(int** board, int size);
@@ -27,4 +35,6 @@ public:
 	int getSize() const;
 
 	int at(int row, int col) const;
+	bool hasShipAt(int row, int col) const;
+	Ship* getShipAt(int row, int col) const;
 };

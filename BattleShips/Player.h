@@ -7,9 +7,13 @@ class Player
 	Board _board;
 	char* _name;
 	int _score;
+
+	Ship** _ships;
 public:
 	Player();
 	Player(char* name);
+
+	~Player();
 
 	const Board& getBoard() const;
 	char* getName() const;

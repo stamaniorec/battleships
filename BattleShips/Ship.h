@@ -19,4 +19,6 @@ public:
 
 	int getSize() const;
 	void setSize(int size);
+
+	virtual char getLetter() const = 0;
 };

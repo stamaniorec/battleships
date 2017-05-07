@@ -7,4 +7,7 @@ class BattleShip : public Ship
 {
 public:
 	BattleShip();
+	BattleShip(ShipPosition position);
+
+	char getLetter() const override;
 };

@@ -1,22 +1,13 @@
 #pragma once
 
 #include "ShipPosition.h"
+#include "Ship.h"
 
-class DestroyerShip
+class DestroyerShip : public Ship
 {
-	ShipPosition position;
-	int hp;
-	int size;
 public:
-	DestroyerShip(ShipPosition position);
 	DestroyerShip();
+	DestroyerShip(ShipPosition position);
 
-	const ShipPosition& getPosition() const;
-	void setPosition(const ShipPosition& position);
-
-	int getHp() const;
-	void setHp(int hp);
-
-	int getSize() const;
-	void setSize(int size);
+	char getLetter() const override;
 };

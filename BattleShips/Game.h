@@ -10,7 +10,8 @@ class Game
 	void init();
 	void render() const;
 	void renderPlayerStats(const Player& player) const;
-	void renderBoard(const Board& board) const;
+	void renderPlayerBoard(const Board& board) const;
+	void renderEnemyBoard(const Board& board) const;
 	void renderSeparator() const;
 public:
 	void run();
