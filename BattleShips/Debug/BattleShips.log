@@ -1,3 +1,12 @@
-﻿  BattleShip.cpp
+﻿  Game.cpp
+  Board.cpp
+  Generating Code...
+  Compiling...
+  SubmarineShip.cpp
+  DestroyerShip.cpp
+  CruiserShip.cpp
+  CarrierShip.cpp
+  BattleShip.cpp
+  Generating Code...
   BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.exe
   BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.pdb (Partial PDB)

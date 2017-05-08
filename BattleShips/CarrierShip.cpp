@@ -1,18 +1,10 @@
 #include "CarrierShip.h"
+#include "GameConfig.h"
 
-CarrierShip::CarrierShip()
-{
-	// TODO: add check for matching size and position coordinates
-	ShipPosition position(2, 2, 2, 6);
-	setPosition(position);
-	setHp(5);
-	setSize(5);
-}
+CarrierShip::CarrierShip() :
+	Ship({}, CARRIER_SHIP_HP, CARRIER_SHIP_SIZE) {}
 
-CarrierShip::CarrierShip(ShipPosition position) : Ship(position)
-{
-	setHp(5);
-	setSize(5);
-}
+CarrierShip::CarrierShip(ShipPosition position) :
+	Ship(position, CARRIER_SHIP_HP, CARRIER_SHIP_SIZE) {}
 
-char CarrierShip::getLetter() const { return 'C'; }
+char CarrierShip::getLetter() const { return CARRIER_SHIP_RENDER_LETTER; }

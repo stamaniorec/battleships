@@ -10,6 +10,7 @@ class Ship
 public:
 	Ship();
 	Ship(ShipPosition position);
+	Ship(ShipPosition position, int hp, int size);
 
 	const ShipPosition& getPosition() const;
 	void setPosition(const ShipPosition& position);

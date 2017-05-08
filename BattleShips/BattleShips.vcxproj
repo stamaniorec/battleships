@@ -125,11 +125,13 @@
   <ItemGroup>
     <ClInclude Include="BattleShip.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardCellState.h" />
     <ClInclude Include="CarrierShip.h" />
     <ClInclude Include="CommonUtilities.h" />
     <ClInclude Include="CruiserShip.h" />
     <ClInclude Include="DestroyerShip.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="ShipPosition.h" />

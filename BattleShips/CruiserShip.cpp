@@ -1,18 +1,10 @@
 #include "CruiserShip.h"
+#include "GameConfig.h"
 
-CruiserShip::CruiserShip()
-{
-	// TODO: add check for matching size and position coordinates
-	ShipPosition position(7, 4, 7, 6);
-	setPosition(position);
-	setHp(3);
-	setSize(3);
-}
+CruiserShip::CruiserShip() :
+	Ship({}, CRUISER_SHIP_HP, CRUISER_SHIP_SIZE) {}
 
-CruiserShip::CruiserShip(ShipPosition position) : Ship(position)
-{
-	setHp(3);
-	setSize(3);
-}
+CruiserShip::CruiserShip(ShipPosition position) :
+	Ship(position, CRUISER_SHIP_HP, CRUISER_SHIP_SIZE) {}
 
-char CruiserShip::getLetter() const { return 'R'; }
+char CruiserShip::getLetter() const { return CRUISER_SHIP_RENDER_LETTER; }

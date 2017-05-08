@@ -95,5 +95,11 @@
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Ships</Filter>
     </ClInclude>
+    <ClInclude Include="BoardCellState.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameConfig.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

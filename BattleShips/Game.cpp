@@ -1,10 +1,7 @@
 #include <iostream>
 #include "Game.h"
-#include "BattleShip.h"
-#include "CarrierShip.h"
-#include "CruiserShip.h"
-#include "DestroyerShip.h"
-#include "SubmarineShip.h"
+#include "BoardCellState.h"
+#include "GameConfig.h"
 
 using namespace std;
 
@@ -28,7 +25,6 @@ Game::~Game()
 void Game::run()
 {
 	init();
-
 	render();
 }
 
@@ -63,29 +59,31 @@ void Game::renderPlayerBoard(const Board& board) const
 		{
 			if (board.at(i, j) == FREE)
 			{
-				cout << ".";
+				cout << FREE_CELL_CHAR;
 			}
 			else if (board.at(i, j) == MISSED)
 			{
-				cout << "~";
+				cout << MISSED_CELL_CHAR;
 			}
 			else if (board.at(i, j) == HIT)
 			{
-				cout << "X";
+				cout << HIT_CELL_CHAR;
 			}
 			else if (board.at(i, j) == OCCUPIED)
 			{
 				Ship* ship = board.getShipAt(i, j);
+
 				if (!ship)
 				{
-					// TODO throw exception
+					throw std::runtime_error("No ship at given position.");
 				}
 
 				cout << ship->getLetter();
 			}
 
-			cout << " ";
+			cout << CELL_SEPARATOR_CHAR;
 		}
+
 		cout << endl;
 	}
 }
@@ -98,29 +96,30 @@ void Game::renderEnemyBoard(const Board& board) const
 		{
 			if (board.at(i, j) == FREE)
 			{
-				cout << ".";
+				cout << FREE_CELL_CHAR;
 			}
 			else if (board.at(i, j) == MISSED)
 			{
-				cout << "~";
+				cout << MISSED_CELL_CHAR;
 			}
 			else if (board.at(i, j) == HIT)
 			{
-				cout << "X";
+				cout << HIT_CELL_CHAR;
 			}
 			else if (board.at(i, j) == OCCUPIED)
 			{
-				cout << ".";
+				cout << FREE_CELL_CHAR;
 			}
 
-			cout << " ";
+			cout << CELL_SEPARATOR_CHAR;
 		}
+
 		cout << endl;
 	}
 }
 
 void Game::renderSeparator() const
 {
-	cout << "-------------------" << endl;
-	cout << "-------------------" << endl;
+	cout << FIELD_SEPARATOR_STRING << endl;
+	cout << FIELD_SEPARATOR_STRING << endl;
 }

@@ -3,16 +3,6 @@
 #include "Ship.h"
 #include "ShipPosition.h"
 
-#define BOARD_SIZE 10
-
-enum BoardCellState
-{
-	FREE,
-	OCCUPIED,
-	MISSED,
-	HIT
-};
-
 class Board
 {
 	int** _board;
@@ -21,6 +11,7 @@ class Board
 	
 	void initBoard();
 	void deleteBoard();
+	void markOnBoard(const ShipPosition& position);
 public:
 	Board(Ship** ships);
 	Board();
@@ -37,4 +28,5 @@ public:
 	int at(int row, int col) const;
 	bool hasShipAt(int row, int col) const;
 	Ship* getShipAt(int row, int col) const;
+	bool shipOccupies(Ship* ship, int row, int col) const;
 };

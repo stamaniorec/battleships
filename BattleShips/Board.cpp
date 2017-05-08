@@ -1,6 +1,8 @@
 #include "Board.h"
 #include "CommonUtilities.h"
 #include "CarrierShip.h"
+#include "GameConfig.h"
+#include "BoardCellState.h"
 
 void Board::initBoard()
 {
@@ -54,27 +56,32 @@ Board::~Board()
 }
 
 Ship** Board::getShips() const { return _ships; }
+
 void Board::setShips(Ship** ships)
 {
 	this->_ships = ships;
 
 	for (int i = 0; i < 5; i++)
 	{
-		ShipPosition position = ships[i]->getPosition();
+		markOnBoard(ships[i]->getPosition());
+	}
+}
 
-		for (int j = position.startRow; j <= position.endRow; j++)
-		{
-			this->_board[j][position.startRow] = OCCUPIED;
-		}
+void Board::markOnBoard(const ShipPosition& position)
+{
+	for (int j = position.startRow; j <= position.endRow; j++)
+	{
+		this->_board[j][position.startCol] = OCCUPIED;
+	}
 
-		for (int j = position.startCol; j <= position.endCol; j++)
-		{
-			this->_board[position.startRow][j] = OCCUPIED;
-		}
+	for (int j = position.startCol; j <= position.endCol; j++)
+	{
+		this->_board[position.startRow][j] = OCCUPIED;
 	}
 }
 
 int** Board::getBoard() const { return _board; }
+
 void Board::setBoard(int** board, int size)
 {
 	deleteBoard();
@@ -97,25 +104,23 @@ bool Board::hasShipAt(int row, int col) const
 	return _board[row][col] == OCCUPIED;
 }
 
+bool Board::shipOccupies(Ship* ship, int row, int col) const
+{
+	ShipPosition position = ship->getPosition();
+
+	return position.startRow <= row && position.endRow >= row &&
+		position.startCol <= col && position.endCol >= col;
+}
+
 Ship* Board::getShipAt(int row, int col) const
 {
 	for (int i = 0; i < 5; i++)
 	{
 		Ship* ship = _ships[i];
-		ShipPosition position = ship->getPosition();
-		if (position.startRow == position.endRow && position.startRow == row) // TODO: add isHorizontal and isVertical
+
+		if (shipOccupies(ship, row, col))
 		{
-			if (position.startCol <= col && position.endCol >= col)
-			{
-				return ship;
-			}
-		}
-		else if (position.startCol == position.endCol && position.startCol == col)
-		{
-			if (position.startRow <= row && position.endRow >= row)
-			{
-				return ship;
-			}
+			return ship;
 		}
 	}
 

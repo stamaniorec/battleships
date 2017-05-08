@@ -1,18 +1,10 @@
 #include "BattleShip.h"
+#include "GameConfig.h"
 
-BattleShip::BattleShip()
-{
-	// TODO: add check for matching size and position coordinates
-	ShipPosition position(4, 5, 4, 8);
-	setPosition(position);
-	setHp(4);
-	setSize(4);
-}
+BattleShip::BattleShip() :
+	Ship({}, BATTLE_SHIP_HP, BATTLE_SHIP_SIZE) {}
 
-BattleShip::BattleShip(ShipPosition position) : Ship(position)
-{
-	setHp(4);
-	setSize(4);
-}
+BattleShip::BattleShip(ShipPosition position)
+	: Ship(position, BATTLE_SHIP_HP, BATTLE_SHIP_SIZE) {}
 
-char BattleShip::getLetter() const { return 'B'; }
+char BattleShip::getLetter() const { return BATTLE_SHIP_RENDER_LETTER; }

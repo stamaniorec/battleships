@@ -44,11 +44,11 @@ void Player::generateShips()
 {
 	Ship** ships = new Ship*[5];
 	
-	ships[0] = new BattleShip({ 0, 0, 0, 4 });
+	ships[0] = new BattleShip({ 0, 0, 0, 3 });
 	ships[1] = new CarrierShip({ 1, 0, 1, 4 });
-	ships[2] = new CruiserShip({ 2, 0, 2, 4 });
-	ships[3] = new DestroyerShip({ 3, 0, 3, 4 });
-	ships[4] = new SubmarineShip({ 4, 0, 4, 4 });
+	ships[2] = new CruiserShip({ 2, 0, 2, 2 });
+	ships[3] = new DestroyerShip({ 3, 0, 3, 1 });
+	ships[4] = new SubmarineShip({ 4, 0, 4, 2 });
 
 	this->_ships = ships;
 	_board.setShips(ships);

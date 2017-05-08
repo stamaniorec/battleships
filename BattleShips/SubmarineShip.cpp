@@ -1,18 +1,10 @@
 #include "SubmarineShip.h"
+#include "GameConfig.h"
 
-SubmarineShip::SubmarineShip()
-{
-	// TODO: add check for matching size and position coordinates
-	ShipPosition position(6, 3, 6, 5);
-	setPosition(position);
-	setHp(3);
-	setSize(3);
-}
+SubmarineShip::SubmarineShip() :
+	Ship({}, SUBMARINE_SHIP_HP, SUBMARINE_SHIP_SIZE) {}
 
-SubmarineShip::SubmarineShip(ShipPosition position) : Ship(position)
-{
-	setHp(3);
-	setSize(3);
-}
+SubmarineShip::SubmarineShip(ShipPosition position) :
+	Ship(position, SUBMARINE_SHIP_HP, SUBMARINE_SHIP_SIZE) {}
 
-char SubmarineShip::getLetter() const { return 'S'; }
+char SubmarineShip::getLetter() const { return SUBMARINE_SHIP_RENDER_LETTER; }
