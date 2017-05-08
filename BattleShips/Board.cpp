@@ -126,3 +126,18 @@ Ship* Board::getShipAt(int row, int col) const
 
 	return nullptr;
 }
+
+void Board::strike(const ShipPosition& targetCell)
+{
+	Ship* shipHit = getShipAt(targetCell.startRow, targetCell.startCol);
+	
+	if (shipHit != nullptr)
+	{
+		shipHit->hit(1);
+		_board[targetCell.startRow][targetCell.startCol] = HIT;
+	}
+	else
+	{
+		_board[targetCell.startRow][targetCell.startCol] = MISSED;
+	}
+}

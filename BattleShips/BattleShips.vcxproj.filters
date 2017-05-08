@@ -60,6 +60,9 @@
     <ClCompile Include="Ship.cpp">
       <Filter>Source Files\Ships</Filter>
     </ClCompile>
+    <ClCompile Include="ShipTurnVerifier.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="GameConfig.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ShipTurnVerifier.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,4 +10,5 @@ public:
 	CarrierShip(ShipPosition position);
 
 	char getLetter() const override;
+	const char* getName() const override;
 };

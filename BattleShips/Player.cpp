@@ -25,7 +25,7 @@ Player::~Player()
 	}
 }
 
-const Board& Player::getBoard() const
+Board& Player::getBoard()
 {
 	return _board;
 }
@@ -52,4 +52,35 @@ void Player::generateShips()
 
 	this->_ships = ships;
 	_board.setShips(ships);
+}
+
+bool Player::hasShipWithLetter(char letter) const
+{
+	return getShipWithLetter(letter) != nullptr;
+}
+
+Ship* Player::getShipWithLetter(char letter) const
+{
+	for (int i = 0; i < 5; i++)
+	{
+		Ship* ship = this->_ships[i];
+
+		if (ship->isAlive() && ship->getLetter() == letter)
+		{
+			return ship;
+		}
+	}
+
+	return nullptr;
+}
+
+bool Player::canPlayWith(Ship* ship) const
+{
+	return _shipTurnVerifier.canPlayWith(ship);
+}
+
+Ship* Player::playWith(Ship* ship)
+{
+	_shipTurnVerifier.playWith(ship);
+	return ship;
 }

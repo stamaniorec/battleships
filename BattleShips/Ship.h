@@ -21,5 +21,9 @@ public:
 	int getSize() const;
 	void setSize(int size);
 
+	void hit(int damage);
+	bool isAlive() const;
+
 	virtual char getLetter() const = 0;
+	virtual const char* getName() const = 0;
 };

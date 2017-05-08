@@ -120,6 +120,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="ShipPosition.cpp" />
+    <ClCompile Include="ShipTurnVerifier.cpp" />
     <ClCompile Include="SubmarineShip.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +136,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="ShipPosition.h" />
+    <ClInclude Include="ShipTurnVerifier.h" />
     <ClInclude Include="SubmarineShip.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

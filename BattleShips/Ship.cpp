@@ -25,3 +25,10 @@ void Ship::setHp(int hp) { this->_hp = hp; }
 
 int Ship::getSize() const { return _size; }
 void Ship::setSize(int size) { this->_size = size; }
+
+bool Ship::isAlive() const { return this->_hp > 0; }
+
+void Ship::hit(int damage)
+{
+	_hp -= damage;
+}

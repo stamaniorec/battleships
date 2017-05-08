@@ -29,4 +29,6 @@ public:
 	bool hasShipAt(int row, int col) const;
 	Ship* getShipAt(int row, int col) const;
 	bool shipOccupies(Ship* ship, int row, int col) const;
+
+	void strike(const ShipPosition& targetCell);
 };

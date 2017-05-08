@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Game::Game()
+Game::Game() : _isGameOver(false)
 {
 }
 
@@ -25,7 +25,13 @@ Game::~Game()
 void Game::run()
 {
 	init();
-	render();
+
+	while (!_isGameOver)
+	{
+		playerTurn();
+		enemyTurn();
+		//render();
+	}
 }
 
 void Game::init()
@@ -37,12 +43,105 @@ void Game::init()
 	_enemy->generateShips();
 }
 
+void Game::renderShipChoicePrompt() const
+{
+	cout << "Available ships: ";
+
+	Ship** allPlayerShips = _player->getBoard().getShips();
+
+	for (int i = 0; i < 5; i++)
+	{
+		Ship* ship = allPlayerShips[i];
+
+		if (ship->isAlive())
+		{
+			cout << ship->getName() << "(" << ship->getLetter() << "), " << endl;
+		}
+	}
+}
+
+Ship* Game::chooseShipToPlayWith() const
+{
+	renderShipChoicePrompt();
+
+	char letter;
+	while (true)
+	{
+		cin.get(letter);
+
+		if (letter == '\n')
+		{
+			continue;
+		}
+
+		if (!_player->hasShipWithLetter(letter))
+		{
+			cout << "Ship with letter " << letter << " isn't available, try again." << endl;
+			continue;
+		}
+
+		Ship* selectedShip = _player->getShipWithLetter(letter);
+
+		if (_player->canPlayWith(selectedShip))
+		{
+			break;
+		}
+		else
+		{
+			cout << "You are not yet allowed to play with " << selectedShip->getName() << endl;
+		}
+	}
+
+	Ship* selectedShip = _player->getShipWithLetter(letter);
+	return _player->playWith(selectedShip);
+}
+
+const ShipPosition& Game::chooseTarget() const
+{
+	int row, col;
+	cin >> row >> col;
+
+	while (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE)
+	{
+		cout << "Please select a position on the board!" << endl;
+		cin >> row >> col;
+	}
+
+	return ShipPosition(row, col, row, col);
+}
+
+void Game::playerTurn()
+{
+	render();
+
+	Ship* ship = chooseShipToPlayWith();
+	cout << "You're playing with " << ship->getName() << endl;
+	ShipPosition target = chooseTarget();
+	cout << "You're shooting at " << target.startRow << " " << target.startCol << endl;
+	
+	//announceResult();
+	_enemy->getBoard().strike(target);
+
+	Ship* shipHit = _enemy->getBoard().getShipAt(target.startRow, target.startCol);
+	if (shipHit != nullptr)
+	{
+		if (!shipHit->isAlive())
+		{
+			cout << "You sunk " << shipHit->getName() << endl;
+		}
+	}
+}
+
+void Game::enemyTurn()
+{
+}
+
 void Game::render() const
 {
 	renderPlayerStats(*_enemy);
-	renderPlayerBoard(_enemy->getBoard());
+	renderEnemyBoard(_enemy->getBoard());
 	renderSeparator();
-	renderEnemyBoard(_player->getBoard());
+	renderPlayerBoard(_player->getBoard());
 	renderPlayerStats(*_player);
 }
 
