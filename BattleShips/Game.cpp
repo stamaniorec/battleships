@@ -1,7 +1,12 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "Game.h"
 #include "BoardCellState.h"
 #include "GameConfig.h"
+
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -30,7 +35,6 @@ void Game::run()
 	{
 		playerTurn();
 		enemyTurn();
-		//render();
 	}
 }
 
@@ -41,6 +45,8 @@ void Game::init()
 
 	_player->generateShips(); // TODO: get it from UI
 	_enemy->generateShips();
+
+	srand(time(NULL));
 }
 
 void Game::renderShipChoicePrompt() const
@@ -53,7 +59,7 @@ void Game::renderShipChoicePrompt() const
 	{
 		Ship* ship = allPlayerShips[i];
 
-		if (ship->isAlive())
+		if (ship->isAlive() && _player->canPlayWith(ship))
 		{
 			cout << ship->getName() << "(" << ship->getLetter() << "), " << endl;
 		}
@@ -119,7 +125,6 @@ void Game::playerTurn()
 	ShipPosition target = chooseTarget();
 	cout << "You're shooting at " << target.startRow << " " << target.startCol << endl;
 	
-	//announceResult();
 	_enemy->getBoard().strike(target);
 
 	Ship* shipHit = _enemy->getBoard().getShipAt(target.startRow, target.startCol);
@@ -134,6 +139,46 @@ void Game::playerTurn()
 
 void Game::enemyTurn()
 {
+	system("cls"); // clear screen in Windows
+	render();
+
+	char letters[] = { 'B', 'C', 'R', 'D', 'S' };
+
+	Ship* ship = nullptr;
+	while (ship == nullptr)
+	{
+		int shipLetterIndex = rand() % 5;
+		ship = _enemy->getShipWithLetter(letters[shipLetterIndex]);
+	}
+
+	int randRow = rand() % BOARD_SIZE;
+	int randCol = rand() % BOARD_SIZE;
+
+	ShipPosition target(randRow, randCol, randRow, randCol);
+
+	cout << "Enemy is shooting at " << randRow << "," << randCol << endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+	_player->getBoard().strike(target);
+
+	Ship* shipHit = _player->getBoard().getShipAt(target.startRow, target.startCol);
+	if (shipHit != nullptr)
+	{
+		if (!shipHit->isAlive())
+		{
+			cout << "The ship " << shipHit->getName() << " was sunk... :(" << endl;
+		}
+		else
+		{
+			cout << "Enemy hit " << shipHit->getName() << endl;
+		}
+	}
+	else
+	{
+		cout << "Enemy missed! Pheeeew!" << endl;
+	}
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
 
 void Game::render() const
