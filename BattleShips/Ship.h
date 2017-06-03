@@ -2,6 +2,8 @@
 
 #include "ShipPosition.h"
 
+class Game;
+
 class Ship
 {
 	ShipPosition _position;
@@ -26,4 +28,6 @@ public:
 
 	virtual char getLetter() const = 0;
 	virtual const char* getName() const = 0;
+
+	virtual void executeSpecialMove(Game& game) = 0;
 };

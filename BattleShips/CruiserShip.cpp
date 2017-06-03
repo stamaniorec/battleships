@@ -9,3 +9,8 @@ CruiserShip::CruiserShip(ShipPosition position) :
 
 char CruiserShip::getLetter() const { return CRUISER_SHIP_RENDER_LETTER; }
 const char* CruiserShip::getName() const { return CRUISER_SHIP_DISPLAY_NAME; }
+
+void CruiserShip::executeSpecialMove(Game& game)
+{
+	game.playWithCruiserShip();
+}

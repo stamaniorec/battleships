@@ -27,6 +27,12 @@ class Game
 public:
 	void run();
 
+	void playWithBattleShip();
+	void playWithCarrierShip();
+	void playWithCruiserShip();
+	void playWithDestroyerShip();
+	void playWithSubmarineShip();
+
 	Game();
 	~Game();
 };

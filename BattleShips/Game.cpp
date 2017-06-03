@@ -122,9 +122,15 @@ void Game::playerTurn()
 
 	Ship* ship = chooseShipToPlayWith();
 	cout << "You're playing with " << ship->getName() << endl;
+	
+	ship->executeSpecialMove(*this);
+}
+
+void Game::playWithCarrierShip()
+{
 	ShipPosition target = chooseTarget();
 	cout << "You're shooting at " << target.startRow << " " << target.startCol << endl;
-	
+
 	_enemy->getBoard().strike(target);
 
 	Ship* shipHit = _enemy->getBoard().getShipAt(target.startRow, target.startCol);
@@ -135,6 +141,57 @@ void Game::playerTurn()
 			cout << "You sunk " << shipHit->getName() << endl;
 		}
 	}
+
+	cout << "Special move for carrier - choose a second target!" << endl;
+	target = chooseTarget();
+	cout << "You're again shooting at " << target.startRow << " " << target.startCol << endl;
+
+	_enemy->getBoard().strike(target);
+
+	shipHit = _enemy->getBoard().getShipAt(target.startRow, target.startCol);
+	if (shipHit != nullptr)
+	{
+		if (!shipHit->isAlive())
+		{
+			cout << "You sunk " << shipHit->getName() << endl;
+		}
+	}
+}
+
+void Game::playWithBattleShip()
+{
+	ShipPosition target = chooseTarget();
+	cout << "You're shooting at " << target.startRow << " " << target.startCol << endl;
+
+	cout << "Special move for carrier - choose a second target!" << endl;
+	target = chooseTarget();
+	cout << "You're again shooting at " << target.startRow << " " << target.startCol << endl;
+
+	_enemy->getBoard().strike(target);
+
+	Ship* shipHit = _enemy->getBoard().getShipAt(target.startRow, target.startCol);
+	if (shipHit != nullptr)
+	{
+		if (!shipHit->isAlive())
+		{
+			cout << "You sunk " << shipHit->getName() << endl;
+		}
+	}
+}
+
+void Game::playWithCruiserShip()
+{
+
+}
+
+void Game::playWithDestroyerShip()
+{
+
+}
+
+void Game::playWithSubmarineShip()
+{
+
 }
 
 void Game::enemyTurn()
