@@ -24,6 +24,11 @@ class Game
 	void renderSeparator() const;
 
 	void renderShipChoicePrompt() const;
+	void renderEnemyBoardWithRevealedAdjacent(const Board& board, const ShipPosition& position) const;
+
+	bool _playedWithCruiserShip;
+
+	void recoverCruiserHealth();
 public:
 	void run();
 
