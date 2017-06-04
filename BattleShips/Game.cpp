@@ -45,6 +45,10 @@ void Game::init()
 	_player = new Player("Player");
 	_enemy = new Player("Enemy");
 
+	_playedWithCruiserShip = false;
+	_hasDestroyerShield = false;
+	_playedWithSubmarineShip = false;
+
 	_player->generateShips(); // TODO: get it from UI
 	_enemy->generateShips();
 
@@ -232,12 +236,12 @@ void Game::playWithCruiserShip()
 
 void Game::playWithDestroyerShip()
 {
-
+	this->_hasDestroyerShield = true;
 }
 
 void Game::playWithSubmarineShip()
 {
-
+	this->_playedWithSubmarineShip = true;
 }
 
 void Game::recoverCruiserHealth()
@@ -274,13 +278,38 @@ void Game::enemyTurn()
 	Ship* shipHit = _player->getBoard().getShipAt(target.startRow, target.startCol);
 	if (shipHit != nullptr)
 	{
-		if (!shipHit->isAlive())
+		if (this->_playedWithSubmarineShip)
 		{
-			cout << "The ship " << shipHit->getName() << " was sunk... :(" << endl;
+			int randNum = rand() % 10;
+			if (randNum < 7)
+			{
+				cout << "Enemy was going to hit you, but your 70% chance of the AI missing saved your ass!" << endl;
+			}
+		}
+
+		if (this->_hasDestroyerShield)
+		{
+			cout << "Enemy hit " << shipHit->getName() << " but you have a shield from the destroyer so you're all good!" << endl;
+			this->_hasDestroyerShield = false;
 		}
 		else
 		{
-			cout << "Enemy hit " << shipHit->getName() << endl;
+			if (shipHit->getName() != CRUISER_SHIP_DISPLAY_NAME && this->_playedWithCruiserShip)
+			{
+				cout << "Special power for cruiser! Recovering 1 health!" << endl;
+
+				this->recoverCruiserHealth();
+
+				this->_playedWithCruiserShip = false;
+			}
+			else if (shipHit->isAlive())
+			{
+				cout << "Enemy hit " << shipHit->getName() << endl;
+			}
+			else
+			{
+				cout << "The ship " << shipHit->getName() << " was sunk... :(" << endl;
+			}
 		}
 	}
 	else
@@ -298,8 +327,6 @@ void Game::enemyTurn()
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
-
-
 
 void Game::render() const
 {

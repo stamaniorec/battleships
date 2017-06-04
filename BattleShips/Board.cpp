@@ -118,7 +118,7 @@ Ship* Board::getShipAt(int row, int col) const
 	{
 		Ship* ship = _ships[i];
 
-		if (shipOccupies(ship, row, col))
+		if (shipOccupies(ship, row, col) && ship->isAlive())
 		{
 			return ship;
 		}

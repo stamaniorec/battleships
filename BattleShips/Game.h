@@ -27,6 +27,8 @@ class Game
 	void renderEnemyBoardWithRevealedAdjacent(const Board& board, const ShipPosition& position) const;
 
 	bool _playedWithCruiserShip;
+	bool _hasDestroyerShield;
+	bool _playedWithSubmarineShip;
 
 	void recoverCruiserHealth();
 public:
