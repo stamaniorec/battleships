@@ -1,15 +1,23 @@
-﻿  Board.cpp
+﻿  ShipTurnVerifier.cpp
+c:\users\stamaniorec\documents\visual studio 2015\projects\battleships\battleships\shipturnverifier.cpp(21): warning C4018: '>=': signed/unsigned mismatch
+  GameRenderer.cpp
+  Board.cpp
   Generating Code...
-  Skipping... (no relevant changes detected)
-  ShipTurnVerifier.cpp
-  Ship.cpp
-  main.cpp
+  Compiling...
   SubmarineShip.cpp
-  Player.cpp
+  InputUtilities.cpp
   Game.cpp
   DestroyerShip.cpp
   CruiserShip.cpp
   CarrierShip.cpp
   BattleShip.cpp
+  AIController.cpp
+c:\users\stamaniorec\documents\visual studio 2015\projects\battleships\battleships\aicontroller.cpp(11): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+c:\users\stamaniorec\documents\visual studio 2015\projects\battleships\battleships\game.cpp(119): warning C4172: returning address of local variable or temporary: position
+  Skipping... (no relevant changes detected)
+  Ship.cpp
+  main.cpp
+  Player.cpp
   BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.exe
   BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.pdb (Partial PDB)

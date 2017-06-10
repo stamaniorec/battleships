@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 	Game game;
 	game.run();
 
-	getchar();
+	cin.get();
 
 	return 0;
 }

@@ -1,15 +1,10 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-#include <ctype.h>
+
 #include "Game.h"
 #include "BoardCellState.h"
 #include "GameConfig.h"
 #include "CruiserShip.h"
-
-#include <chrono>
-#include <thread>
+#include "InputUtilities.h"
 
 using namespace std;
 
@@ -17,7 +12,7 @@ Game::Game() {}
 
 const int Game::NUM_SHIPS = 5;
 
-const char* Game::SHIP_LETTERS[] = {
+const char Game::SHIP_LETTERS[] = {
 	BATTLE_SHIP_RENDER_LETTER,
 	CARRIER_SHIP_RENDER_LETTER,
 	CRUISER_SHIP_RENDER_LETTER,
@@ -27,14 +22,24 @@ const char* Game::SHIP_LETTERS[] = {
 
 Game::~Game()
 {
-	if (_player != nullptr)
+	if (_player)
 	{
 		delete _player;
 	}
 
-	if (_enemy != nullptr)
+	if (_enemy)
 	{
 		delete _enemy;
+	}
+
+	if (_enemyController)
+	{
+		delete _enemyController;
+	}
+
+	if (_gameRenderer)
+	{
+		delete _gameRenderer;
 	}
 }
 
@@ -60,36 +65,13 @@ void Game::init()
 	_player->generateShips(); // TODO: get it from UI
 	_enemy->generateShips();
 
-	srand(time(NULL));
-}
-
-
-
-char Game::enterLetter() const
-{
-	char letter = 0;
-
-	while (!isalpha(letter))
-	{
-		cout << PROMPT;
-
-		cin.get(letter);
-
-		if (letter == '\n')
-		{
-			continue;
-		}
-
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
-
-	return letter;
+	_enemyController = new AIController(*this);
+	_gameRenderer = new GameRenderer(*this);
 }
 
 Ship* Game::chooseShipToPlayWith()
 {
-	renderShipChoicePrompt();
+	_gameRenderer->renderShipChoicePrompt();
 
 	Ship* selectedShip = nullptr;
 
@@ -100,7 +82,7 @@ Ship* Game::chooseShipToPlayWith()
 			cout << "You are not yet allowed to play with " << selectedShip->getName() << endl;
 		}
 
-		char letter = enterLetter();
+		char letter = InputUtilities::enterLetter();
 
 		if (!_player->hasShipWithLetter(letter))
 		{
@@ -139,7 +121,7 @@ const BoardPosition& Game::chooseTarget()
 
 void Game::playerTurn()
 {
-	render();
+	_gameRenderer->render();
 
 	cout << endl;
 
@@ -176,7 +158,7 @@ BoardPosition Game::shoot()
 	}
 
 	cout << endl;
-	waitToContinue();
+	GameRenderer::waitToContinue();
 
 	return target;
 }
@@ -197,10 +179,10 @@ void Game::playWithBattleShip()
 
 	cout << endl;
 	cout << "Special move for Battle ship - adjacent fields will be revealed!" << endl;
-	this->renderEnemyBoardWithRevealedAdjacent(_enemy->getBoard(), target);
+	_gameRenderer->renderEnemyBoardWithRevealedAdjacent(_enemy->getBoard(), target);
 	
 	cout << endl;
-	waitToContinue();
+	GameRenderer::waitToContinue();
 }
 
 void Game::playWithCruiserShip()
@@ -247,230 +229,11 @@ bool Game::hasCruiserRecoveryEnabled() const
 
 void Game::enemyTurn()
 {
-	clearScreen();
-	render();
+	GameRenderer::clearScreen();
+	_gameRenderer->render();
 
-	Ship* ship = nullptr;
-	while (!ship)
-	{
-		int shipLetterIndex = rand() % 5;
-		ship = _enemy->getShipWithLetter(Game::SHIP_LETTERS[shipLetterIndex]);
-	}
-
-	int randRow = rand() % BOARD_SIZE;
-	int randCol = rand() % BOARD_SIZE;
-
-	BoardPosition target(randRow, randCol);
-
-	cout << "Enemy is shooting at " << randRow << "," << randCol << endl;
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
-	_player->getBoard().strike(target);
-
-	Ship* shipHit = _player->getBoard().getShipAt(target.row, target.col);
-	if (shipHit != nullptr)
-	{
-		if (hasSeventyPercentChanceOfMissing())
-		{
-			int randNum = rand() % 10;
-			if (randNum < 7)
-			{
-				cout << "Enemy was going to hit you, but your 70% chance of the AI missing saved your ass!" << endl;
-			}
-		}
-
-		if (hasDestroyerShield())
-		{
-			cout << "Enemy hit " << shipHit->getName() << " but you have a shield from the destroyer so you're all good!" << endl;
-		}
-		else
-		{
-			if (shipHit->getName() != CRUISER_SHIP_DISPLAY_NAME && hasCruiserRecoveryEnabled())
-			{
-				cout << "Special power for cruiser! Recovering 1 health!" << endl;
-
-				this->recoverCruiserHealth();
-			}
-			else if (shipHit->isAlive())
-			{
-				cout << "Enemy hit " << shipHit->getName() << endl;
-			}
-			else
-			{
-				cout << "The ship " << shipHit->getName() << " was sunk... :(" << endl;
-			}
-		}
-	}
-	else
-	{
-		if (this->hasCruiserRecoveryEnabled())
-		{
-			cout << "Special power for cruiser! Recovering 1 health!" << endl;
-
-			this->recoverCruiserHealth();
-		}
-
-		cout << "Enemy missed! Pheeeew!" << endl;
-	}
-
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	_enemyController->playTurn();
 }
 
-void Game::render() const
-{
-	renderPlayerStats(*_enemy);
-	renderEnemyBoard(_enemy->getBoard());
-	renderSeparator();
-	renderPlayerBoard(_player->getBoard());
-	renderPlayerStats(*_player);
-}
-
-void Game::renderPlayerStats(const Player& player) const
-{
-	cout << "Player: " << player.getName() << "; Score: " << player.getScore() << endl;
-}
-
-void Game::renderPlayerBoard(const Board& board) const
-{
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		for (int j = 0; j < board.getSize(); j++)
-		{
-			if (board.at(i, j) == FREE)
-			{
-				cout << FREE_CELL_CHAR;
-			}
-			else if (board.at(i, j) == MISSED)
-			{
-				cout << MISSED_CELL_CHAR;
-			}
-			else if (board.at(i, j) == HIT)
-			{
-				cout << HIT_CELL_CHAR;
-			}
-			else if (board.at(i, j) == OCCUPIED)
-			{
-				Ship* ship = board.getShipAt(i, j);
-
-				if (!ship)
-				{
-					throw std::runtime_error("No ship at given position.");
-				}
-
-				cout << ship->getLetter();
-			}
-
-			cout << CELL_SEPARATOR_CHAR;
-		}
-
-		cout << endl;
-	}
-}
-
-void Game::renderEnemyBoard(const Board& board) const
-{
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		for (int j = 0; j < board.getSize(); j++)
-		{
-			if (board.at(i, j) == FREE)
-			{
-				cout << FREE_CELL_CHAR;
-			}
-			else if (board.at(i, j) == MISSED)
-			{
-				cout << MISSED_CELL_CHAR;
-			}
-			else if (board.at(i, j) == HIT)
-			{
-				cout << HIT_CELL_CHAR;
-			}
-			else if (board.at(i, j) == OCCUPIED)
-			{
-				cout << FREE_CELL_CHAR;
-			}
-
-			cout << CELL_SEPARATOR_CHAR;
-		}
-
-		cout << endl;
-	}
-}
-
-void Game::renderSeparator() const
-{
-	cout << FIELD_SEPARATOR_STRING << endl;
-	cout << FIELD_SEPARATOR_STRING << endl;
-}
-
-void Game::renderEnemyBoardWithRevealedAdjacent(const Board& board, const BoardPosition& position) const
-{
-	for (int i = 0; i < board.getSize(); i++)
-	{
-		for (int j = 0; j < board.getSize(); j++)
-		{
-			if (board.at(i, j) == FREE)
-			{
-				cout << FREE_CELL_CHAR;
-			}
-			else if (board.at(i, j) == MISSED)
-			{
-				cout << MISSED_CELL_CHAR;
-			}
-			else if (board.at(i, j) == HIT)
-			{
-				cout << HIT_CELL_CHAR;
-			}
-			else if (board.at(i, j) == OCCUPIED)
-			{
-				if (Board::areAdjacent(position, BoardPosition(i, j)))
-				{
-					cout << "O";
-				}
-				else
-				{
-					cout << FREE_CELL_CHAR;
-				}
-			}
-
-			cout << CELL_SEPARATOR_CHAR;
-		}
-
-		cout << endl;
-	}
-}
-
-void Game::clearScreen() const
-{
-	system("cls");
-}
-
-void Game::waitToContinue() const
-{
-	cout << "Press a key to continue..." << endl;
-	cout << PROMPT;
-
-	cin.get();
-	cin.clear();
-}
-
-void Game::renderShipChoicePrompt() const
-{
-	cout << "Available ships: " << endl;
-	cout << endl;
-
-	Ship** allPlayerShips = _player->getBoard().getShips();
-
-	for (int i = 0; i < NUM_SHIPS; i++)
-	{
-		Ship* ship = allPlayerShips[i];
-
-		if (ship->isAlive() && _player->canPlayWith(ship))
-		{
-			cout << ship->getName() << "(" << ship->getLetter() << "), " << endl;
-		}
-	}
-
-	cout << endl;
-	cout << "Enter letter for ship to play with..." << endl;
-}
+Player* Game::getPlayer() const { return _player; }
+Player* Game::getEnemy() const { return _enemy; }

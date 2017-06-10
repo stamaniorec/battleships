@@ -5,7 +5,7 @@
 
 class ShipTurnVerifier
 {
-	bool _hasPlayedWith[5];
+	bool _hasPlayedWith[Game::NUM_SHIPS];
 	std::queue<int> _queue;
 
 	int mapLetterToIndex(char letter) const;

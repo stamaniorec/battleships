@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIController.cpp" />
     <ClCompile Include="BattleShip.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardPosition.cpp" />
@@ -117,6 +118,8 @@
     <ClCompile Include="CruiserShip.cpp" />
     <ClCompile Include="DestroyerShip.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameRenderer.cpp" />
+    <ClCompile Include="InputUtilities.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ship.cpp" />
@@ -125,6 +128,7 @@
     <ClCompile Include="SubmarineShip.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIController.h" />
     <ClInclude Include="BattleShip.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardCellState.h" />
@@ -135,6 +139,8 @@
     <ClInclude Include="DestroyerShip.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameConfig.h" />
+    <ClInclude Include="GameRenderer.h" />
+    <ClInclude Include="InputUtilities.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="ShipPosition.h" />

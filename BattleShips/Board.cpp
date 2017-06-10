@@ -17,10 +17,6 @@ void Board::initBoard()
 			_board[i][j] = FREE;
 		}
 	}
-
-	_board[8][8] = MISSED;
-	_board[7][7] = MISSED;
-	_board[9][9] = HIT;
 }
 
 void Board::deleteBoard()
@@ -61,7 +57,7 @@ void Board::setShips(Ship** ships)
 {
 	this->_ships = ships;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < Game::NUM_SHIPS; i++)
 	{
 		markOnBoard(ships[i]->getPosition());
 	}
@@ -114,7 +110,7 @@ bool Board::shipOccupies(Ship* ship, int row, int col) const
 
 Ship* Board::getShipAt(int row, int col) const
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < Game::NUM_SHIPS; i++)
 	{
 		Ship* ship = _ships[i];
 

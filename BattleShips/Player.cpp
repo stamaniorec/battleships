@@ -13,7 +13,7 @@ Player::~Player()
 {
 	if (_ships != nullptr)
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < Game::NUM_SHIPS; i++)
 		{
 			if (_ships[i] != nullptr)
 			{
@@ -42,7 +42,7 @@ int Player::getScore() const
 
 void Player::generateShips()
 {
-	Ship** ships = new Ship*[5];
+	Ship** ships = new Ship*[Game::NUM_SHIPS];
 	
 	ships[0] = new BattleShip({ 0, 0, 0, 3 });
 	ships[1] = new CarrierShip({ 1, 0, 1, 4 });
@@ -61,7 +61,7 @@ bool Player::hasShipWithLetter(char letter) const
 
 Ship* Player::getShipWithLetter(char letter) const
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < Game::NUM_SHIPS; i++)
 	{
 		Ship* ship = this->_ships[i];
 

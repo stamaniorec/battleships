@@ -1,15 +1,22 @@
 #pragma once
 
+class AIController;
+class GameRenderer;
+
 #include "Player.h"
+#include "AIController.h"
+#include "GameRenderer.h"
 
 class Game
 {
 	Player* _player;
 	Player* _enemy;
-
-	bool _isGameOver;
+	AIController* _enemyController;
+	GameRenderer* _gameRenderer;
 
 	Ship* _lastPlayedWith;
+
+	bool _isGameOver;
 
 	void init();
 
@@ -19,9 +26,18 @@ class Game
 	Ship* chooseShipToPlayWith();
 	const BoardPosition& chooseTarget();
 
-	char enterLetter() const;
-
 	BoardPosition shoot();
+public:
+	void run();
+
+	static const int NUM_SHIPS;
+	static const char SHIP_LETTERS[];
+
+	void playWithBattleShip();
+	void playWithCarrierShip();
+	void playWithCruiserShip();
+	void playWithDestroyerShip();
+	void playWithSubmarineShip();
 
 	bool hasSeventyPercentChanceOfMissing() const;
 	bool hasDestroyerShield() const;
@@ -29,30 +45,8 @@ class Game
 
 	void recoverCruiserHealth();
 
-	void waitToContinue() const;
-
-	void render() const;
-	void renderPlayerStats(const Player& player) const;
-	void renderPlayerBoard(const Board& board) const;
-	void renderEnemyBoard(const Board& board) const;
-	void renderSeparator() const;
-
-	void renderShipChoicePrompt() const;
-	void renderEnemyBoardWithRevealedAdjacent(const Board& board, const BoardPosition& position) const;
-
-	void clearScreen() const;
-
-public:
-	void run();
-
-	static const int NUM_SHIPS;
-	static const char* SHIP_LETTERS[];
-
-	void playWithBattleShip();
-	void playWithCarrierShip();
-	void playWithCruiserShip();
-	void playWithDestroyerShip();
-	void playWithSubmarineShip();
+	Player* getPlayer() const;
+	Player* getEnemy() const;
 
 	Game();
 	~Game();
