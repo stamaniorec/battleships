@@ -10,7 +10,7 @@ SubmarineShip::SubmarineShip(ShipPosition position) :
 char SubmarineShip::getLetter() const { return SUBMARINE_SHIP_RENDER_LETTER; }
 const char* SubmarineShip::getName() const { return SUBMARINE_SHIP_DISPLAY_NAME; }
 
-void SubmarineShip::executeSpecialMove(Game& game)
+void SubmarineShip::play(Game& game)
 {
 	game.playWithSubmarineShip();
 }

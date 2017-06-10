@@ -69,14 +69,14 @@ void Board::setShips(Ship** ships)
 
 void Board::markOnBoard(const ShipPosition& position)
 {
-	for (int j = position.startRow; j <= position.endRow; j++)
+	for (int j = position.start.row; j <= position.end.row; j++)
 	{
-		this->_board[j][position.startCol] = OCCUPIED;
+		this->_board[j][position.start.col] = OCCUPIED;
 	}
 
-	for (int j = position.startCol; j <= position.endCol; j++)
+	for (int j = position.start.col; j <= position.end.col; j++)
 	{
-		this->_board[position.startRow][j] = OCCUPIED;
+		this->_board[position.start.row][j] = OCCUPIED;
 	}
 }
 
@@ -108,8 +108,8 @@ bool Board::shipOccupies(Ship* ship, int row, int col) const
 {
 	ShipPosition position = ship->getPosition();
 
-	return position.startRow <= row && position.endRow >= row &&
-		position.startCol <= col && position.endCol >= col;
+	return position.start.row <= row && position.end.row >= row &&
+		position.start.col <= col && position.end.col >= col;
 }
 
 Ship* Board::getShipAt(int row, int col) const
@@ -127,17 +127,35 @@ Ship* Board::getShipAt(int row, int col) const
 	return nullptr;
 }
 
-void Board::strike(const ShipPosition& targetCell)
+void Board::strike(const BoardPosition& targetCell)
 {
-	Ship* shipHit = getShipAt(targetCell.startRow, targetCell.startCol);
+	Ship* shipHit = getShipAt(targetCell.row, targetCell.col);
 	
 	if (shipHit != nullptr)
 	{
 		shipHit->hit(1);
-		_board[targetCell.startRow][targetCell.startCol] = HIT;
+		_board[targetCell.row][targetCell.col] = HIT;
 	}
 	else
 	{
-		_board[targetCell.startRow][targetCell.startCol] = MISSED;
+		_board[targetCell.row][targetCell.col] = MISSED;
 	}
+}
+
+bool Board::isValidPosition(const BoardPosition& position)
+{
+	return position.row >= 0 && position.row < BOARD_SIZE &&
+		position.col >= 0 && position.col < BOARD_SIZE;
+}
+
+bool Board::areAdjacent(const BoardPosition& a, const BoardPosition& b)
+{
+	if (!Board::isValidPosition(a) || !Board::isValidPosition(b))
+	{
+		return false;
+	}
+
+	int deltaX = abs(a.col - b.col);
+	int deltaY = abs(a.row - b.row);
+	return deltaX <= 1 && deltaY <= 1;
 }

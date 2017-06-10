@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="BattleShip.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardPosition.cpp" />
     <ClCompile Include="CarrierShip.cpp" />
     <ClCompile Include="CruiserShip.cpp" />
     <ClCompile Include="DestroyerShip.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="BattleShip.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardCellState.h" />
+    <ClInclude Include="BoardPosition.h" />
     <ClInclude Include="CarrierShip.h" />
     <ClInclude Include="CommonUtilities.h" />
     <ClInclude Include="CruiserShip.h" />

@@ -26,6 +26,11 @@ void ShipTurnVerifier::playWith(Ship* ship)
 
 bool ShipTurnVerifier::canPlayWith(Ship* ship) const
 {
+	if (!ship)
+	{
+		return false;
+	}
+
 	return !_hasPlayedWith[mapLetterToIndex(ship->getLetter())];
 }
 

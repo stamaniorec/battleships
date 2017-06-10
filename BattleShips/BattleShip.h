@@ -12,5 +12,5 @@ public:
 
 	char getLetter() const override;
 	const char* getName() const override;
-	void executeSpecialMove(Game& game) override;
+	void play(Game& game) override;
 };

@@ -27,3 +27,4 @@
 #define HIT_CELL_CHAR 'X'
 #define CELL_SEPARATOR_CHAR ' '
 #define FIELD_SEPARATOR_STRING "-------------------"
+#define PROMPT "< "

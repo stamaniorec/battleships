@@ -1,5 +1,15 @@
-﻿  Game.cpp
-c:\users\stamaniorec\documents\visual studio 2015\projects\battleships\battleships\game.cpp(50): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\stamaniorec\documents\visual studio 2015\projects\battleships\battleships\game.cpp(117): warning C4172: returning address of local variable or temporary
+﻿  Board.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  ShipTurnVerifier.cpp
+  Ship.cpp
+  main.cpp
+  SubmarineShip.cpp
+  Player.cpp
+  Game.cpp
+  DestroyerShip.cpp
+  CruiserShip.cpp
+  CarrierShip.cpp
+  BattleShip.cpp
   BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.exe
   BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.pdb (Partial PDB)

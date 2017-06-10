@@ -29,5 +29,5 @@ public:
 	virtual char getLetter() const = 0;
 	virtual const char* getName() const = 0;
 
-	virtual void executeSpecialMove(Game& game) = 0;
+	virtual void play(Game& game) = 0;
 };

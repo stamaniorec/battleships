@@ -30,5 +30,8 @@ public:
 	Ship* getShipAt(int row, int col) const;
 	bool shipOccupies(Ship* ship, int row, int col) const;
 
-	void strike(const ShipPosition& targetCell);
+	void strike(const BoardPosition& targetCell);
+
+	static bool isValidPosition(const BoardPosition& position);
+	static bool areAdjacent(const BoardPosition& a, const BoardPosition& b);
 };

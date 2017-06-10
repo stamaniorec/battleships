@@ -63,6 +63,9 @@
     <ClCompile Include="ShipTurnVerifier.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="BoardPosition.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -105,6 +108,9 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="ShipTurnVerifier.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardPosition.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>

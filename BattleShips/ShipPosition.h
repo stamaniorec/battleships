@@ -1,11 +1,11 @@
 #pragma once
 
+#include "BoardPosition.h"
+
 struct ShipPosition
 {
-	int startRow;
-	int startCol;
-	int endRow;
-	int endCol;
+	BoardPosition start;
+	BoardPosition end;
 
 	ShipPosition(int startRow, int startCol, int endRow, int endCol);
 	ShipPosition();

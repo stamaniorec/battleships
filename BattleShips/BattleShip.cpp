@@ -10,7 +10,7 @@ BattleShip::BattleShip(ShipPosition position)
 char BattleShip::getLetter() const { return BATTLE_SHIP_RENDER_LETTER; }
 const char* BattleShip::getName() const { return BATTLE_SHIP_DISPLAY_NAME; }
 
-void BattleShip::executeSpecialMove(Game& game)
+void BattleShip::play(Game& game)
 {
 	game.playWithBattleShip();
 }

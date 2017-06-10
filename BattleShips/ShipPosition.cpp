@@ -2,7 +2,7 @@
 #include "ShipPosition.h"
 
 ShipPosition::ShipPosition(int startRow, int startCol, int endRow, int endCol) :
-	startRow(startRow), startCol(startCol), endRow(endRow), endCol(endCol)
+	start(startRow, startCol), end(endRow, endCol)
 {
 	if (startRow != endRow && startCol != endCol)
 	{
@@ -12,20 +12,20 @@ ShipPosition::ShipPosition(int startRow, int startCol, int endRow, int endCol) :
 
 ShipPosition::ShipPosition()
 {
-	startRow = startCol = endRow = endCol = 0;
+	start.row = start.col = end.row = end.col = 0;
 }
 
 int ShipPosition::getSize() const
 {
-	int dWidth = this->endCol - this->startCol;
-	int dHeight = this->endRow - this->startRow;
+	int dWidth = this->end.col - this->start.col;
+	int dHeight = this->end.row - this->start.row;
 
 	return dWidth > 0 ? dWidth + 1 : dHeight + 1;
 }
 
 bool ShipPosition::isHorizontal() const
 {
-	return this->startRow == this->endRow;
+	return this->start.row == this->end.row;
 }
 
 bool ShipPosition::isVertical() const
