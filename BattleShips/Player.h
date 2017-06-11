@@ -21,7 +21,7 @@ public:
 	char* getName() const;
 	int getScore() const;
 
-	void generateShips();
+	void generateHardCodedShips();
 	bool hasShipWithLetter(char letter) const;
 	Ship* getShipWithLetter(char letter) const;
 	void setShips(Ship** ships);

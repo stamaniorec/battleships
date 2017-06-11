@@ -157,7 +157,7 @@ void Board::strike(const BoardPosition& targetCell)
 {
 	Ship* shipHit = getShipAt(targetCell.row, targetCell.col);
 	
-	if (shipHit != nullptr)
+	if (shipHit)
 	{
 		shipHit->hit(1);
 		_board[targetCell.row][targetCell.col] = HIT;

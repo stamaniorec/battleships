@@ -7,7 +7,6 @@ class GameRenderer
 	Game& _game;
 
 	void renderPlayerStats(const Player& player) const;
-	void renderPlayerBoard(const Board& board) const;
 	void renderEnemyBoard(const Board& board) const;
 	void renderSeparator() const;
 public:
@@ -15,6 +14,7 @@ public:
 
 	void render() const;
 	void renderShipChoicePrompt() const;
+	void renderPlayerBoard(const Board& board) const;
 	void renderEnemyBoardWithRevealedAdjacent(const Board& board, const BoardPosition& position) const;
 
 	static void waitToContinue();

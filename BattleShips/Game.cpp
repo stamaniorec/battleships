@@ -51,6 +51,8 @@ void Game::run()
 	{
 		playerTurn();
 		enemyTurn();
+
+		GameRenderer::clearScreen();
 	}
 }
 
@@ -65,9 +67,11 @@ void Game::init()
 	_enemyController = new AIController(*this);
 	_gameRenderer = new GameRenderer(*this);
 
-	_player->generateShips(); // TODO: get it from UI
-	//_enemy->generateShips();
-	_enemyController->generateShips();
+	_player->generateHardCodedShips();
+	//this->enterShipPositions();
+	
+	_enemy->generateHardCodedShips();
+	//_enemyController->generateShips();
 }
 
 Ship* Game::chooseShipToPlayWith()
@@ -139,13 +143,13 @@ BoardPosition Game::shoot()
 	cout << endl;
 	cout << "You're shooting at " << target.row << " " << target.col << endl;
 
-	_enemy->getBoard().strike(target);
-
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	Ship* shipHit = _enemy->getBoard().getShipAt(target.row, target.col);
-	if (shipHit != nullptr)
+	if (shipHit)
 	{
+		_enemy->getBoard().strike(target);
+
 		if (!shipHit->isAlive())
 		{
 			cout << "You sunk " << shipHit->getName() << endl;
@@ -240,3 +244,100 @@ void Game::enemyTurn()
 
 Player* Game::getPlayer() const { return _player; }
 Player* Game::getEnemy() const { return _enemy; }
+
+#include "BattleShip.h"
+#include "CarrierShip.h"
+#include "DestroyerShip.h"
+#include "CruiserShip.h"
+#include "SubmarineShip.h"
+
+ShipPosition Game::enterShipPosition(const Ship& ship)
+{
+	GameRenderer::clearScreen();
+	_gameRenderer->renderPlayerBoard(_player->getBoard());
+
+	BoardPosition start;
+	BoardPosition end;
+
+	while (true)
+	{
+		cout << endl;
+		cout << "Enter start position for " << ship.getName() << "..." << endl;
+		cout << PROMPT;
+
+		cin >> start;
+
+		while (!Board::isValidPosition(start))
+		{
+			cout << "Please enter valid row and column numbers in the format <row> <col>!" << endl;
+			cout << PROMPT;
+			cin >> start;
+		}
+
+		cout << endl;
+		cout << "Enter end position for " << ship.getName() << "..." << endl;
+		cout << PROMPT;
+
+		cin >> end;
+
+		while (!Board::isValidPosition(start))
+		{
+			cout << "Please enter valid row and column numbers in the format <row> <col>!" << endl;
+			cout << PROMPT;
+			cin >> end;
+		}
+
+		ShipPosition position(start.row, start.col, end.row, end.col);
+		if (position.isHorizontal() || position.isVertical())
+		{
+			if (position.getSize() == ship.getSize())
+			{
+				if (_player->getBoard().isShipPositionFree(position))
+				{
+					break;
+				}
+
+				cout << "Position entered intersects with another ship. Try again!" << endl;
+			}
+			else
+			{
+				cout << ship.getName() << " has a size of " << ship.getSize() << ". Try again!" << endl;
+			}
+		}
+		else
+		{
+			cout << "Position entered is neither horizontal nor vertical. Try again!" << endl;
+		}
+	}
+
+	return ShipPosition(start.row, start.col, end.row, end.col);
+}
+
+void Game::enterShipPositions()
+{
+	Ship** ships = new Ship*[NUM_SHIPS];
+
+	ships[0] = new BattleShip();
+	ships[1] = new CarrierShip();
+	ships[2] = new CruiserShip();
+	ships[3] = new DestroyerShip();
+	ships[4] = new SubmarineShip();
+
+	ships[0]->setPosition(enterShipPosition(*ships[0]));
+	_player->getBoard().setShip(ships[0], 0);
+
+	ships[1]->setPosition(enterShipPosition(*ships[1]));
+	_player->getBoard().setShip(ships[1], 1);
+
+	ships[2]->setPosition(enterShipPosition(*ships[2]));
+	_player->getBoard().setShip(ships[2], 2);
+
+	ships[3]->setPosition(enterShipPosition(*ships[3]));
+	_player->getBoard().setShip(ships[3], 3);
+
+	ships[4]->setPosition(enterShipPosition(*ships[4]));
+	_player->getBoard().setShip(ships[4], 4);
+
+	_player->getBoard().setShips(ships);
+	_player->setShips(ships);
+}

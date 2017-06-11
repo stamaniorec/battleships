@@ -40,7 +40,7 @@ int Player::getScore() const
 	return _score;
 }
 
-void Player::generateShips()
+void Player::generateHardCodedShips()
 {
 	Ship** ships = new Ship*[NUM_SHIPS];
 	

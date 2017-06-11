@@ -23,6 +23,9 @@ class Game
 	void playerTurn();
 	void enemyTurn();
 
+	void enterShipPositions();
+	ShipPosition enterShipPosition(const Ship& ship);
+
 	Ship* chooseShipToPlayWith();
 	const BoardPosition& chooseTarget();
 

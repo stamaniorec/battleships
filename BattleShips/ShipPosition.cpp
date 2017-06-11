@@ -2,13 +2,7 @@
 #include "ShipPosition.h"
 
 ShipPosition::ShipPosition(int startRow, int startCol, int endRow, int endCol) :
-	start(startRow, startCol), end(endRow, endCol)
-{
-	if (startRow != endRow && startCol != endCol)
-	{
-		throw std::invalid_argument("Position is neither vertical nor horizontal");
-	}
-}
+	start(startRow, startCol), end(endRow, endCol) {};
 
 ShipPosition::ShipPosition()
 {
@@ -30,5 +24,5 @@ bool ShipPosition::isHorizontal() const
 
 bool ShipPosition::isVertical() const
 {
-	return !isHorizontal();
+	return this->start.col == this->end.col;
 }
