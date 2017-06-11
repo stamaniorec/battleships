@@ -1,6 +1,9 @@
+#include <iostream>
 #include "GameRenderer.h"
 #include "GameConfig.h"
 #include "BoardCellState.h"
+
+using namespace std;
 
 GameRenderer::GameRenderer(Game& game) : _game(game)
 {
@@ -23,8 +26,19 @@ void GameRenderer::renderPlayerStats(const Player& player) const
 
 void GameRenderer::renderPlayerBoard(const Board& board) const
 {
+	cout << "  ";
+
 	for (int i = 0; i < board.getSize(); i++)
 	{
+		cout << i << " ";
+	}
+
+	cout << endl;
+
+	for (int i = 0; i < board.getSize(); i++)
+	{
+		cout << i << " ";
+
 		for (int j = 0; j < board.getSize(); j++)
 		{
 			if (board.at(i, j) == FREE)
@@ -60,8 +74,19 @@ void GameRenderer::renderPlayerBoard(const Board& board) const
 
 void GameRenderer::renderEnemyBoard(const Board& board) const
 {
+	cout << "  ";
+
 	for (int i = 0; i < board.getSize(); i++)
 	{
+		cout << i << " ";
+	}
+
+	cout << endl;
+
+	for (int i = 0; i < board.getSize(); i++)
+	{
+		cout << i << " ";
+
 		for (int j = 0; j < board.getSize(); j++)
 		{
 			if (board.at(i, j) == FREE)
