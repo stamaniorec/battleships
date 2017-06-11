@@ -18,7 +18,7 @@ void GameRenderer::render() const
 
 void GameRenderer::renderPlayerStats(const Player& player) const
 {
-	cout << "Player: " << player.getName() << "; Score: " << player.getScore() << endl;
+	cout << "Player: " << player.getName() << endl;
 }
 
 void GameRenderer::renderPlayerBoard(const Board& board) const

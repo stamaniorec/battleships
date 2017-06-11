@@ -67,11 +67,11 @@ void Game::init()
 	_enemyController = new AIController(*this);
 	_gameRenderer = new GameRenderer(*this);
 
-	_player->generateHardCodedShips();
-	//this->enterShipPositions();
+	//_player->generateHardCodedShips();
+	this->enterShipPositions();
 	
-	_enemy->generateHardCodedShips();
-	//_enemyController->generateShips();
+	//_enemy->generateHardCodedShips();
+	_enemyController->generateShips();
 }
 
 Ship* Game::chooseShipToPlayWith()

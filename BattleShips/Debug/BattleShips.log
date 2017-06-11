@@ -1,6 +1,0 @@
-﻿  Game.cpp
-  Board.cpp
-  Generating Code...
-c:\users\stamaniorec\documents\visual studio 2015\projects\battleships\battleships\game.cpp(124): warning C4172: returning address of local variable or temporary: position
-  BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.exe
-  BattleShips.vcxproj -> C:\Users\stamaniorec\documents\visual studio 2015\Projects\BattleShips\Debug\BattleShips.pdb (Partial PDB)
