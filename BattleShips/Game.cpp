@@ -49,10 +49,10 @@ void Game::run()
 
 	while (!_isGameOver)
 	{
+		GameRenderer::clearScreen();
+
 		playerTurn();
 		enemyTurn();
-
-		GameRenderer::clearScreen();
 	}
 }
 
@@ -134,6 +134,8 @@ void Game::playerTurn()
 	cout << "You're playing with " << ship->getName() << endl;
 
 	ship->play(*this);
+
+	GameRenderer::waitToContinue();
 }
 
 BoardPosition Game::shoot()
@@ -146,9 +148,10 @@ BoardPosition Game::shoot()
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	Ship* shipHit = _enemy->getBoard().getShipAt(target.row, target.col);
+	_enemy->getBoard().strike(target);
+
 	if (shipHit)
 	{
-		_enemy->getBoard().strike(target);
 
 		if (!shipHit->isAlive())
 		{
@@ -194,6 +197,10 @@ void Game::playWithBattleShip()
 
 void Game::playWithCruiserShip()
 {
+	shoot();
+
+	cout << endl;
+	cout << "Special ability of Cruiser ship - recovers 1 health point if not hit next turn or sunk." << endl;
 }
 
 void Game::playWithDestroyerShip()
