@@ -19,6 +19,7 @@ public:
 
 	Ship** getShips() const;
 	void setShips(Ship** ships);
+	void setShip(Ship* ship, int index);
 
 	int** getBoard() const;
 	void setBoard(int** board, int size);
@@ -29,6 +30,8 @@ public:
 	bool hasShipAt(int row, int col) const;
 	Ship* getShipAt(int row, int col) const;
 	bool shipOccupies(Ship* ship, int row, int col) const;
+
+	bool isShipPositionFree(const ShipPosition& position) const;
 
 	void strike(const BoardPosition& targetCell);
 

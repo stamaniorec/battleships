@@ -9,16 +9,19 @@ Ship::Ship(ShipPosition position) : _position(position)
 }
 
 Ship::Ship(ShipPosition position, int hp, int size) :
-	_position(position), _hp(hp), _size(size)
+	_position(position), _hp(hp), _size(size) {};
+
+const ShipPosition& Ship::getPosition() const { return _position; }
+
+void Ship::setPosition(const ShipPosition& position)
 {
-	if (position.getSize() != size || position.getSize() != hp)
+	if (position.getSize() != _size)
 	{
 		throw std::invalid_argument("Given position doesn't match ship size.");
 	}
-}
 
-const ShipPosition& Ship::getPosition() const { return _position; }
-void Ship::setPosition(const ShipPosition& position) { this->_position = position; }
+	this->_position = position;
+}
 
 int Ship::getHp() const { return _hp; }
 void Ship::setHp(int hp) { this->_hp = hp; }

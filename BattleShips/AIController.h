@@ -10,8 +10,10 @@ class AIController
 
 	Ship* chooseShip() const;
 	BoardPosition shoot();
+	ShipPosition generatePosition(const Ship& ship) const;
 public:
 	AIController(Game& game);
 
+	void generateShips();
 	void playTurn();
 };

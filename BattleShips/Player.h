@@ -24,6 +24,7 @@ public:
 	void generateShips();
 	bool hasShipWithLetter(char letter) const;
 	Ship* getShipWithLetter(char letter) const;
+	void setShips(Ship** ships);
 
 	bool canPlayWith(Ship* ship) const;
 	Ship* playWith(Ship* ship);

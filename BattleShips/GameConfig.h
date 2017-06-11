@@ -1,6 +1,8 @@
 #pragma once
 
 #define BOARD_SIZE 10
+#define NUM_SHIPS 5
+
 #define BATTLE_SHIP_HP 4
 #define BATTLE_SHIP_SIZE 4
 #define BATTLE_SHIP_RENDER_LETTER 'B'

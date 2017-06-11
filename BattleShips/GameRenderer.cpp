@@ -9,6 +9,7 @@ GameRenderer::GameRenderer(Game& game) : _game(game)
 void GameRenderer::render() const
 {
 	renderPlayerStats(*_game.getEnemy());
+	//renderPlayerBoard(_game.getEnemy()->getBoard());
 	renderEnemyBoard(_game.getEnemy()->getBoard());
 	renderSeparator();
 	renderPlayerBoard(_game.getPlayer()->getBoard());
@@ -151,7 +152,7 @@ void GameRenderer::renderShipChoicePrompt() const
 
 	Ship** allPlayerShips = _game.getPlayer()->getBoard().getShips();
 
-	for (int i = 0; i < Game::NUM_SHIPS; i++)
+	for (int i = 0; i < NUM_SHIPS; i++)
 	{
 		Ship* ship = allPlayerShips[i];
 

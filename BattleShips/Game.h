@@ -30,7 +30,6 @@ class Game
 public:
 	void run();
 
-	static const int NUM_SHIPS;
 	static const char SHIP_LETTERS[];
 
 	void playWithBattleShip();

@@ -1,11 +1,9 @@
 #include <stdexcept>
 #include "ShipTurnVerifier.h"
-#include "GameConfig.h"
-#include "Game.h"
 
 ShipTurnVerifier::ShipTurnVerifier()
 {
-	for (int i = 0; i < Game::NUM_SHIPS; i++)
+	for (int i = 0; i < NUM_SHIPS; i++)
 	{
 		_hasPlayedWith[i] = false;
 	}
@@ -18,7 +16,7 @@ void ShipTurnVerifier::playWith(Ship* ship)
 	
 	_queue.push(index);
 
-	if (_queue.size() >= Game::NUM_SHIPS)
+	if (_queue.size() >= NUM_SHIPS)
 	{
 		int unmarkIndex = _queue.front();
 		_queue.pop();

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "Game.h"
 #include "BoardCellState.h"
@@ -9,8 +11,6 @@
 using namespace std;
 
 Game::Game() {}
-
-const int Game::NUM_SHIPS = 5;
 
 const char Game::SHIP_LETTERS[] = {
 	BATTLE_SHIP_RENDER_LETTER,
@@ -62,11 +62,12 @@ void Game::init()
 	_isGameOver = false;
 	_lastPlayedWith = nullptr;
 
-	_player->generateShips(); // TODO: get it from UI
-	_enemy->generateShips();
-
 	_enemyController = new AIController(*this);
 	_gameRenderer = new GameRenderer(*this);
+
+	_player->generateShips(); // TODO: get it from UI
+	//_enemy->generateShips();
+	_enemyController->generateShips();
 }
 
 Ship* Game::chooseShipToPlayWith()
@@ -95,7 +96,7 @@ Ship* Game::chooseShipToPlayWith()
 	}
 
 	_lastPlayedWith = selectedShip;
-	
+
 	cout << endl;
 	return _player->playWith(selectedShip);
 }
@@ -127,7 +128,7 @@ void Game::playerTurn()
 
 	Ship* ship = chooseShipToPlayWith();
 	cout << "You're playing with " << ship->getName() << endl;
-	
+
 	ship->play(*this);
 }
 
@@ -139,6 +140,8 @@ BoardPosition Game::shoot()
 	cout << "You're shooting at " << target.row << " " << target.col << endl;
 
 	_enemy->getBoard().strike(target);
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	Ship* shipHit = _enemy->getBoard().getShipAt(target.row, target.col);
 	if (shipHit != nullptr)
@@ -169,7 +172,7 @@ void Game::playWithCarrierShip()
 
 	cout << endl;
 	cout << "Special move for Carrier ship - perform a second shooting!" << endl;
-	
+
 	shoot();
 }
 
@@ -180,7 +183,7 @@ void Game::playWithBattleShip()
 	cout << endl;
 	cout << "Special move for Battle ship - adjacent fields will be revealed!" << endl;
 	_gameRenderer->renderEnemyBoardWithRevealedAdjacent(_enemy->getBoard(), target);
-	
+
 	cout << endl;
 	GameRenderer::waitToContinue();
 }
@@ -200,7 +203,7 @@ void Game::playWithDestroyerShip()
 void Game::playWithSubmarineShip()
 {
 	shoot();
-	
+
 	cout << endl;
 	cout << "Special move for Submarine ship - 70% chance of the enemy missing your ship!" << endl;
 }

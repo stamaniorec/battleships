@@ -57,7 +57,7 @@ void Board::setShips(Ship** ships)
 {
 	this->_ships = ships;
 
-	for (int i = 0; i < Game::NUM_SHIPS; i++)
+	for (int i = 0; i < NUM_SHIPS; i++)
 	{
 		markOnBoard(ships[i]->getPosition());
 	}
@@ -110,7 +110,7 @@ bool Board::shipOccupies(Ship* ship, int row, int col) const
 
 Ship* Board::getShipAt(int row, int col) const
 {
-	for (int i = 0; i < Game::NUM_SHIPS; i++)
+	for (int i = 0; i < NUM_SHIPS; i++)
 	{
 		Ship* ship = _ships[i];
 
@@ -121,6 +121,36 @@ Ship* Board::getShipAt(int row, int col) const
 	}
 
 	return nullptr;
+}
+
+bool Board::isShipPositionFree(const ShipPosition& position) const
+{
+	bool canPlaceShip = true;
+
+	if (position.isHorizontal())
+	{
+		for (int i = position.start.col; i <= position.end.col; i++)
+		{
+			if (hasShipAt(position.start.row, i))
+			{
+				canPlaceShip = false;
+				break;
+			}
+		}
+	}
+	else if (position.isVertical())
+	{
+		for (int i = position.start.row; i <= position.end.row; i++)
+		{
+			if (hasShipAt(i, position.start.col))
+			{
+				canPlaceShip = false;
+				break;
+			}
+		}
+	}
+
+	return canPlaceShip;
 }
 
 void Board::strike(const BoardPosition& targetCell)
@@ -154,4 +184,15 @@ bool Board::areAdjacent(const BoardPosition& a, const BoardPosition& b)
 	int deltaX = abs(a.col - b.col);
 	int deltaY = abs(a.row - b.row);
 	return deltaX <= 1 && deltaY <= 1;
+}
+
+void Board::setShip(Ship* ship, int index)
+{
+	if (!_ships)
+	{
+		_ships = new Ship*[NUM_SHIPS];
+	}
+
+	_ships[index] = ship;
+	markOnBoard(ship->getPosition());
 }

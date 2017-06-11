@@ -12,7 +12,7 @@ ShipPosition::ShipPosition(int startRow, int startCol, int endRow, int endCol) :
 
 ShipPosition::ShipPosition()
 {
-	start.row = start.col = end.row = end.col = 0;
+	start.row = start.col = end.row = end.col = -1;
 }
 
 int ShipPosition::getSize() const
